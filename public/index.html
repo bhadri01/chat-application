@@ -2,98 +2,99 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat Application</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
     <div id="usernamePage">
-        <label for="username">Enter your username:</label>
-        <input type="text" id="username" placeholder="Username">
-        <button onclick="setUsername()">Set Username</button>
+      <label for="username">Enter your username</label>
+      <input type="text" id="username" placeholder="Username" />
+      <button onclick="setUsername()">Set Username</button>
     </div>
 
     <div id="chatPage">
-        <strong>Connected Users:</strong>
-        <div id="userList">
-
+      <div class="usernamePage">
+        <div class="usersTitle">connected users</div>
+        <div id="userList"></div>
+      </div>
+      <div class="box">
+        <div id="chatMessages"></div>
+        <div id="messageInput">
+          <input type="text" id="message" placeholder="Type your message" />
+          <button onclick="sendMessage()">Send</button>
         </div>
-        <div class="box">
-            <div id="chatMessages"></div>
-            <div id="messageInput">
-                <input type="text" id="message" placeholder="Type your message">
-                <button onclick="sendMessage()">Send</button>
-            </div>
-        </div>
+      </div>
     </div>
 
     <script>
-        const ws = new WebSocket(`ws://${window.location.host}`);
-        let username;
+      const ws = new WebSocket(`ws://${window.location.host}`);
+      let username;
 
-        function setUsername() {
-            username = document.getElementById('username').value.trim();
+      function setUsername() {
+        username = document.getElementById("username").value.trim();
 
-            if (username !== '') {
-                ws.send(JSON.stringify({ type: 'setUsername', username }));
-                document.getElementById('usernamePage').style.display = 'none';
-                document.getElementById('chatPage').style.display = 'flex';
-            }
+        if (username !== "") {
+          ws.send(JSON.stringify({ type: "setUsername", username }));
+          document.getElementById("usernamePage").style.display = "none";
+          document.getElementById("chatPage").style.display = "flex";
         }
+      }
 
-        function updateUserList(users) {
-            const userListDiv = document.getElementById('userList');
-            userListDiv.innerHTML = '';
-            users.map(a => {
-                userListDiv.innerHTML += `<b class="conuser">${a}</b>`;
-            })
-
-        }
-
-        function displayChatMessage(sender, message) {
-            const chatMessagesDiv = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.innerHTML = `<strong class="userr">${sender}:</strong> ${message}`;
-            chatMessagesDiv.appendChild(messageDiv);
-            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
-        }
-
-        function sendMessage() {
-            const messageInput = document.getElementById('message');
-            const message = messageInput.value.trim();
-
-            if (message !== '') {
-                ws.send(JSON.stringify({ type: 'chatMessage', message }));
-                messageInput.value = '';
-            }
-        }
-        // Add event listener for the "Enter" key
-        document.getElementById('username').addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                setUsername();
-            }
+      function updateUserList(users) {
+        const userListDiv = document.getElementById("userList");
+        userListDiv.innerHTML = "";
+        users.map((a) => {
+          userListDiv.innerHTML += `<b class="conuser">${a}</b>`;
         });
-        // Add event listener for the "Enter" key
-        document.getElementById('message').addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+      }
+
+      function displayChatMessage(sender, message) {
+        const chatMessagesDiv = document.getElementById("chatMessages");
+        const messageDiv = document.createElement("div");
+        messageDiv.innerHTML = `<strong class="userr">${sender}:</strong> ${message}`;
+        chatMessagesDiv.appendChild(messageDiv);
+        chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+      }
+
+      function sendMessage() {
+        const messageInput = document.getElementById("message");
+        const message = messageInput.value.trim();
+
+        if (message !== "") {
+          ws.send(JSON.stringify({ type: "chatMessage", message }));
+          messageInput.value = "";
+        }
+      }
+      // Add event listener for the "Enter" key
+      document
+        .getElementById("username")
+        .addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            setUsername();
+          }
+        });
+      // Add event listener for the "Enter" key
+      document
+        .getElementById("message")
+        .addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            sendMessage();
+          }
         });
 
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
 
-            if (data.type === 'userList') {
-                updateUserList(data.users);
-            } else if (data.type === 'chatMessage') {
-                displayChatMessage(data.sender, data.message);
-            }
-        };
+        if (data.type === "userList") {
+          updateUserList(data.users);
+        } else if (data.type === "chatMessage") {
+          displayChatMessage(data.sender, data.message);
+        }
+      };
     </script>
-</body>
-
+  </body>
 </html>
