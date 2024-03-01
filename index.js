@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
+const requestIp = require('request-ip');
 
 const app = express();
 const server = http.createServer(app);
@@ -17,9 +18,11 @@ app.get('/', (req, res) => {
 });
 
 wss.on('connection', (ws, req) => {
+    
     ws.on('message', (message) => {
         const data = JSON.parse(message);
-
+        var clientIp = requestIp.getClientIp(req);
+        console.log(clientIp,JSON.parse(message));
         if (data.type === 'setUsername') {
             connectedUsers.set(ws, data.username);
             broadcastUserList();
