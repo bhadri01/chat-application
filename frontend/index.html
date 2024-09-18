@@ -1,5 +1,3 @@
-<!-- public/index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,20 +16,20 @@
 
     <div id="chatPage">
       <div class="usernamePage">
-        <div class="usersTitle">connected users</div>
+        <div class="usersTitle">Connected Users</div>
         <div id="userList"></div>
       </div>
       <div class="box">
         <div id="chatMessages"></div>
         <div id="messageInput">
-          <input type="text" id="message" placeholder="Type your message" />
+          <input type="text" id="message" placeholder="Type your message" autofocus />
           <button onclick="sendMessage()">Send</button>
         </div>
       </div>
     </div>
 
     <script>
-      const ws = new WebSocket(`ws://${window.location.host}`);
+      const ws = new WebSocket(`ws://localhost:3000`);
       let username;
 
       function setUsername() {
@@ -47,17 +45,34 @@
       function updateUserList(users) {
         const userListDiv = document.getElementById("userList");
         userListDiv.innerHTML = "";
-        users.map((a) => {
-          userListDiv.innerHTML += `<b class="conuser">${a}</b>`;
+        users.forEach((user) => {
+          userListDiv.innerHTML += `<b class="conuser">${user}</b>`;
         });
       }
 
-      function displayChatMessage(sender, message) {
+      function displayChatMessage(sender, message, isSent = false) {
         const chatMessagesDiv = document.getElementById("chatMessages");
         const messageDiv = document.createElement("div");
-        messageDiv.innerHTML = `<strong class="userr">${sender}:</strong> ${message}`;
+        const timestamp = new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+
+        messageDiv.classList.add("message");
+        if (isSent) {
+          messageDiv.classList.add("sent");
+        }
+
+        messageDiv.innerHTML = `<strong class="userr">${sender}:</strong> ${message} <span class="timestamp">${timestamp}</span>`;
         chatMessagesDiv.appendChild(messageDiv);
         chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+      }
+
+      function displayPreviousMessages(messages) {
+        messages.forEach((msg) => {
+          const isSent = msg.sender === username;
+          displayChatMessage(msg.sender, msg.message, isSent);
+        });
       }
 
       function sendMessage() {
@@ -69,15 +84,8 @@
           messageInput.value = "";
         }
       }
-      // Add event listener for the "Enter" key
-      document
-        .getElementById("username")
-        .addEventListener("keypress", function (event) {
-          if (event.key === "Enter") {
-            setUsername();
-          }
-        });
-      // Add event listener for the "Enter" key
+
+      // Add event listener for the "Enter" key in the message input field
       document
         .getElementById("message")
         .addEventListener("keypress", function (event) {
@@ -92,7 +100,10 @@
         if (data.type === "userList") {
           updateUserList(data.users);
         } else if (data.type === "chatMessage") {
-          displayChatMessage(data.sender, data.message);
+          const isSent = data.sender === username;
+          displayChatMessage(data.sender, data.message, isSent);
+        } else if (data.type === "previousMessages") {
+          displayPreviousMessages(data.messages);
         }
       };
     </script>

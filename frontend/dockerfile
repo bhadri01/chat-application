@@ -1,0 +1,8 @@
+# Use the official Apache HTTP Server image
+FROM httpd:latest
+
+# Copy all files from the current directory (your front-end code) to the Apache document root
+COPY ./ /usr/local/apache2/htdocs/
+
+# Expose port 80 (default for Apache)
+EXPOSE 80

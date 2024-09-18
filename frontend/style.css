@@ -1,0 +1,210 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #1f1f1f;
+  color: #f2f2f2;
+}
+
+#usernamePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 20px;
+  background-color: #1f1f1f;
+}
+
+#usernamePage label {
+  font-size: 24px;
+  color: #f2f2f2;
+}
+
+#usernamePage input {
+  padding: 12px;
+  border: 1px solid #4b4b4b;
+  outline: none;
+  border-radius: 5px;
+  width: 250px;
+  background-color: #2c2c2c;
+  color: #f2f2f2;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+#usernamePage input:focus {
+  border-color: #6ab7ff;
+}
+
+#usernamePage button {
+  padding: 12px 24px;
+  color: #f2f2f2;
+  border-radius: 5px;
+  border: none;
+  background-image: radial-gradient(circle 975px at 2.6% 48.3%, rgba(0, 8, 120, 1) 0%, rgba(95, 184, 224, 1) 99.7%);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#usernamePage button:hover {
+  transform: scale(1.05);
+}
+
+#chatPage {
+  display: none;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+}
+
+.usernamePage {
+  width: 25%;
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+.usernamePage .usersTitle {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  color: #6ab7ff;
+}
+
+#userList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow: auto;
+  max-height: 70vh;
+}
+
+.conuser {
+  background-color: #00b545;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.box {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #2e2e2e;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+#chatMessages {
+  padding: 10px;
+  background-color: #2c2c2c;
+  height: 80vh;
+  overflow-y: auto;
+  border-radius: 5px;
+}
+
+#messageInput {
+  display: flex;
+  gap: 10px;
+  background-color: #2e2e2e;
+  padding: 15px 10px;
+  border-radius: 5px;
+  align-items: center;
+}
+
+#messageInput input {
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  background-color: #3c3c3c;
+  color: white;
+  transition: 0.3s ease;
+}
+
+#messageInput input:focus {
+  border-color: #6ab7ff;
+}
+
+#messageInput button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  background-color: #6ab7ff;
+  border-radius: 5px;
+  color: white;
+  transition: 0.3s ease;
+}
+
+#messageInput button:hover {
+  background-color: #579fe3;
+}
+
+.message {
+  display: flex;
+  justify-content: flex-start;
+  padding: 8px 15px;
+  background-color: #424242;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  word-wrap: break-word;
+  width: fit-content;
+}
+
+.message.sent {
+  background-color: #4a94f1;
+  color: #f2f2f2;
+  justify-content: flex-end;
+}
+
+.message .userr {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.message .timestamp {
+  font-size: 12px;
+  color: #bcbcbc;
+  margin-left: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #1f1f1f;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4a94f1;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #346dba;
+}
