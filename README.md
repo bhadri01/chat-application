@@ -152,10 +152,10 @@ This will rebuild the frontend without using any cached layers.
 ## Screenshots
 
 ### Username Screen:
-![Username Screen](screenshots/username_screen.png)
+![Username Screen](images/username_screen.png)
 
 ### Chat Page:
-![Chat Page](screenshots/chat_page.png)
+![Chat Page](images/chat_page.png)
 
 ---
 
